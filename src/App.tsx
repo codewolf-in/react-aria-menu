@@ -1,10 +1,11 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
   return (
     <div className="App">
+      <aside id="sidebar">Something</aside>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
