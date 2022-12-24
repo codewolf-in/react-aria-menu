@@ -3,7 +3,7 @@ import MenuItem from "./MenuItem";
 import { useMenu } from "@react-aria/menu";
 import { useTreeState } from "@react-stately/tree";
 
-function NavigationMenu(props: any) {
+function Menu(props: any) {
   let state = useTreeState(props);
   let ref = React.useRef(null);
   let { menuProps } = useMenu(props, state, ref);
