@@ -3,6 +3,7 @@ import { MenuItem } from "./MenuItem";
 import type { Node } from "@react-types/shared";
 import { TreeState } from "react-stately";
 import styled from "styled-components";
+import { useState } from "react";
 
 type MenuSectionProps<T> = {
   section: Node<T>;
@@ -23,12 +24,16 @@ const StyledListItem = styled.li<{
   outline: none;
   cursor: pointer;
   text-align: left;
+  :hover {
+    background: "gray";
+  }
 `;
 
 export function MenuSection<T extends object>({
   section,
   state,
 }: MenuSectionProps<T>) {
+  const [isOpen, setIsOpen] = useState(false);
   const { itemProps, headingProps, groupProps } = useMenuSection({
     heading: section.rendered,
     "aria-label": section["aria-label"],
@@ -36,23 +41,29 @@ export function MenuSection<T extends object>({
 
   return (
     <>
-      <StyledListItem {...itemProps} $level={0}>
+      <StyledListItem
+        {...itemProps}
+        $level={0}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         {section.rendered && (
-          <span style={{ paddingLeft: "25px" }} {...headingProps}>
+          <span style={{ padding: "5px 25px" }} {...headingProps}>
             {section.rendered}
           </span>
         )}
-        <ul
-          {...groupProps}
-          style={{
-            padding: 0,
-            listStyle: "none",
-          }}
-        >
-          {[...section.childNodes].map((item) => (
-            <MenuItem key={item.key} item={item} state={state} level={2} />
-          ))}
-        </ul>
+        {isOpen && (
+          <ul
+            {...groupProps}
+            style={{
+              padding: 0,
+              listStyle: "none",
+            }}
+          >
+            {[...section.childNodes].map((item) => (
+              <MenuItem key={item.key} item={item} state={state} level={2} />
+            ))}
+          </ul>
+        )}
       </StyledListItem>
     </>
   );

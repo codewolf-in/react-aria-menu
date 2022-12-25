@@ -10,9 +10,13 @@ interface MenuProps<T extends object> extends AriaMenuProps<T> {
 }
 
 export function Menu<T extends object>({ ...props }: MenuProps<T>) {
-  const state = useTreeState({ ...props, selectionMode: "none" });
+  const state = useTreeState(props);
   const ref = React.useRef(null);
-  const { menuProps } = useMenu(props, state, ref);
+  const { menuProps } = useMenu(
+    { ...props, "aria-label": props["aria-label"] },
+    state,
+    ref
+  );
 
   return (
     <ul
@@ -20,7 +24,8 @@ export function Menu<T extends object>({ ...props }: MenuProps<T>) {
       ref={ref}
       style={{
         listStyle: "none",
-        width: 150,
+        width: "100%",
+        maxWidth: "max-content",
         backgroundColor: "blue",
         padding: 0,
       }}
